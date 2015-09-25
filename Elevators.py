@@ -51,7 +51,7 @@ except ImportError:
 import time
 
 
-class customer(object):
+class customer():
     '''
     customer is a person in the building with an int(position) and
     int(destination). Can call and direct elevators.
@@ -80,7 +80,7 @@ class customer(object):
         elevator.destination = self.destination
 
 
-class elevator(object):
+class elevator():
     '''
     has a list of customers in the elelvator, elevator recieves call from the
     elevator bank, his destination changes, and he moves to his destination.
@@ -144,7 +144,7 @@ class elevator(object):
                 floor.remove(person)
 
 
-class elevator_bank(object):
+class elevator_bank():
     '''
     handles all the elevators in the buinding, has a list of elelvators,
     a Queue of calls, it gives out the jobs to the lifts, tracks quaintity
@@ -254,7 +254,7 @@ class elevator_bank(object):
                 return True
 
 
-class building(object):
+class building():
     '''
     building has a list of lists floors, each contain customers at random.
     has an elevator bank with "n" elevators in it.
