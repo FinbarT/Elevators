@@ -45,8 +45,8 @@ except ImportError:
         Curses has to be run in bash/linux, it is not dos/windows compatible.
         This program will now exit.
     """)
-    import os
-    os._exit(0)
+    import sys
+    sys.exit()
 
 import time
 
