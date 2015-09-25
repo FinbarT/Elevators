@@ -51,7 +51,7 @@ except ImportError:
 import time
 
 
-class customer():
+class Customer():
     '''
     customer is a person in the building with an int(position) and
     int(destination). Can call and direct elevators.
@@ -80,7 +80,7 @@ class customer():
         elevator.destination = self.destination
 
 
-class elevator():
+class Elevator():
     '''
     has a list of customers in the elelvator, elevator recieves call from the
     elevator bank, his destination changes, and he moves to his destination.
@@ -144,7 +144,7 @@ class elevator():
                 floor.remove(person)
 
 
-class elevator_bank():
+class Elevator_bank():
     '''
     handles all the elevators in the buinding, has a list of elelvators,
     a Queue of calls, it gives out the jobs to the lifts, tracks quaintity
@@ -152,7 +152,7 @@ class elevator_bank():
     '''
     def __init__(self, num_of_elevators, num_of_floors):
 
-        self.elevators = [elevator(i) for i in range(num_of_elevators)]
+        self.elevators = [Elevator(i) for i in range(num_of_elevators)]
         self.num_of_floors = num_of_floors
         self.calls = []
         self.people_moved = 0
@@ -254,14 +254,14 @@ class elevator_bank():
                 return True
 
 
-class building():
+class Building():
     '''
     building has a list of lists floors, each contain customers at random.
     has an elevator bank with "n" elevators in it.
     '''
     def __init__(self, floors=0, customers=0, num_of_elevators=0):
 
-        self.elevator_bank = elevator_bank(num_of_elevators, floors)
+        self.elevator_bank = Elevator_bank(num_of_elevators, floors)
         self.floors = [list() for i in range(floors)]
         self.customers = customers
 
@@ -302,7 +302,7 @@ class building():
                     continue
                 else:
                     self.floors[position].append(
-                        customer(position, destination)
+                        Customer(position, destination)
                     )
                     break
 
@@ -427,7 +427,7 @@ def main():
         "You can't have that many elevators, must be 5 or less\n"
     )
 
-    my_building = building(floors, customers, elevators)
+    my_building = Building(floors, customers, elevators)
     my_building.spawn_customers()
     simulate(my_building)
 
