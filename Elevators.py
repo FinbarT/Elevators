@@ -45,13 +45,13 @@ except ImportError:
         Curses has to be run in bash/linux, it is not dos/windows compatible.
         This program will now exit.
     """)
-    import os
-    os._exit(0)
+    import sys
+    sys.exit()
 
 import time
 
 
-class customer(object):
+class Customer():
     '''
     customer is a person in the building with an int(position) and
     int(destination). Can call and direct elevators.
@@ -63,7 +63,7 @@ class customer(object):
 
     def __str__(self):
 
-        return "(p: %d, d: %d)" % (self.position, self.destination)
+        return "(p: {}, d: {})".format(self.position, self.destination)
 
     def call_elevator(self, elevator_bank):
         '''
@@ -80,7 +80,7 @@ class customer(object):
         elevator.destination = self.destination
 
 
-class elevator(object):
+class Elevator():
     '''
     has a list of customers in the elelvator, elevator recieves call from the
     elevator bank, his destination changes, and he moves to his destination.
@@ -98,7 +98,7 @@ class elevator(object):
 
     def __str__(self):
 
-        return "[%d]" % (len(self.occupants))
+        return "[{}]".format(len(self.occupants))
 
     def move(self):
         '''
@@ -107,7 +107,7 @@ class elevator(object):
         if self.destination > self.position:
             self.position += 1
         elif self.destination < self.position:
-            self.position += -1
+            self.position -= 1
         else:
             pass
 
@@ -144,7 +144,7 @@ class elevator(object):
                 floor.remove(person)
 
 
-class elevator_bank(object):
+class Elevator_bank():
     '''
     handles all the elevators in the buinding, has a list of elelvators,
     a Queue of calls, it gives out the jobs to the lifts, tracks quaintity
@@ -152,7 +152,7 @@ class elevator_bank(object):
     '''
     def __init__(self, num_of_elevators, num_of_floors):
 
-        self.elevators = [elevator(i) for i in range(num_of_elevators)]
+        self.elevators = [Elevator(i) for i in range(num_of_elevators)]
         self.num_of_floors = num_of_floors
         self.calls = []
         self.people_moved = 0
@@ -175,7 +175,7 @@ class elevator_bank(object):
 
         for elevator in self.elevators:
             if elevator.position == floor_id:
-                output += "|%2s|" % elevator
+                output += "|{}|".format(elevator)
             else:
                 output += "|   |"
 
@@ -232,16 +232,16 @@ class elevator_bank(object):
                 str(elevator.destination)
             )
             if len(elevator.occupants) > 0:
-                data += "Occupant: %s\n" % (
+                data += "Occupant: {}\n".format(
                     elevator.occupants[0]
                 )
             else:
                 data += "\n"
 
-        data += "People arrived at their destinations: %s\n" % (
+        data += "People arrived at their destinations: {}\n".format(
             str(self.people_moved)
         )
-        data += "Calls left to answer: %s\n" % (str(len(self.calls)))
+        data += "Calls left to answer: {}\n".format(str(len(self.calls)))
 
         return data
 
@@ -254,14 +254,14 @@ class elevator_bank(object):
                 return True
 
 
-class building(object):
+class Building():
     '''
     building has a list of lists floors, each contain customers at random.
     has an elevator bank with "n" elevators in it.
     '''
     def __init__(self, floors=0, customers=0, num_of_elevators=0):
 
-        self.elevator_bank = elevator_bank(num_of_elevators, floors)
+        self.elevator_bank = Elevator_bank(num_of_elevators, floors)
         self.floors = [list() for i in range(floors)]
         self.customers = customers
 
@@ -275,7 +275,7 @@ class building(object):
 
         for i in range(len(self.floors) - 1, -1, -1):
             output_str += ((
-                "Level:%d Population:%4d|%s" % (i, len(self.floors[i]),
+                "Level:{} Population:{:>4}|{}".format(i, len(self.floors[i]),
                 self.elevator_bank.print_floor(i))
             ))
             output_str += "\n"
@@ -283,7 +283,7 @@ class building(object):
         output_str += "------------------------"
 
         for elevator in self.elevator_bank.elevators:
-            output_str += "| %s |" % elevator.id_
+            output_str += "| {} |".format(elevator.id_)
 
         output_str += "\n"
 
@@ -302,7 +302,7 @@ class building(object):
                     continue
                 else:
                     self.floors[position].append(
-                        customer(position, destination)
+                        Customer(position, destination)
                     )
                     break
 
@@ -401,7 +401,7 @@ def get_input(prompt_input, max_value, min_value, bad_input):
 
 def main():
     '''
-    prompts user for input, initises the building, fills it with customers and
+    prompts user for input, instantiate the building, fills it with customers and
     runs elevator simulation.
     '''
     floors = get_input(
@@ -427,7 +427,7 @@ def main():
         "You can't have that many elevators, must be 5 or less\n"
     )
 
-    my_building = building(floors, customers, elevators)
+    my_building = Building(floors, customers, elevators)
     my_building.spawn_customers()
     simulate(my_building)
 
