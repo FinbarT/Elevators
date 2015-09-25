@@ -107,7 +107,7 @@ class Elevator():
         if self.destination > self.position:
             self.position += 1
         elif self.destination < self.position:
-            self.position += -1
+            self.position -= 1
         else:
             pass
 
