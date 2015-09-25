@@ -63,7 +63,7 @@ class Customer():
 
     def __str__(self):
 
-        return "(p: %d, d: %d)" % (self.position, self.destination)
+        return "(p: {}, d: {})".format(self.position, self.destination)
 
     def call_elevator(self, elevator_bank):
         '''
@@ -98,7 +98,7 @@ class Elevator():
 
     def __str__(self):
 
-        return "[%d]" % (len(self.occupants))
+        return "[{}]".format(len(self.occupants))
 
     def move(self):
         '''
@@ -175,7 +175,7 @@ class Elevator_bank():
 
         for elevator in self.elevators:
             if elevator.position == floor_id:
-                output += "|%2s|" % elevator
+                output += "|{}|".format(elevator)
             else:
                 output += "|   |"
 
@@ -232,16 +232,16 @@ class Elevator_bank():
                 str(elevator.destination)
             )
             if len(elevator.occupants) > 0:
-                data += "Occupant: %s\n" % (
+                data += "Occupant: {}\n".format(
                     elevator.occupants[0]
                 )
             else:
                 data += "\n"
 
-        data += "People arrived at their destinations: %s\n" % (
+        data += "People arrived at their destinations: {}\n".format(
             str(self.people_moved)
         )
-        data += "Calls left to answer: %s\n" % (str(len(self.calls)))
+        data += "Calls left to answer: {}\n".format(str(len(self.calls)))
 
         return data
 
@@ -275,7 +275,7 @@ class Building():
 
         for i in range(len(self.floors) - 1, -1, -1):
             output_str += ((
-                "Level:%d Population:%4d|%s" % (i, len(self.floors[i]),
+                "Level:{} Population:{:>4}|{}".format(i, len(self.floors[i]),
                 self.elevator_bank.print_floor(i))
             ))
             output_str += "\n"
@@ -283,7 +283,7 @@ class Building():
         output_str += "------------------------"
 
         for elevator in self.elevator_bank.elevators:
-            output_str += "| %s |" % elevator.id_
+            output_str += "| {} |".format(elevator.id_)
 
         output_str += "\n"
 
