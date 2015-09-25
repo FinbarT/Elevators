@@ -401,7 +401,7 @@ def get_input(prompt_input, max_value, min_value, bad_input):
 
 def main():
     '''
-    prompts user for input, initises the building, fills it with customers and
+    prompts user for input, instantiate the building, fills it with customers and
     runs elevator simulation.
     '''
     floors = get_input(
